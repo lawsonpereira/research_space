@@ -1,0 +1,31 @@
+/**
+ * 
+ */
+package com.ubs.opsit.interviews.proxy;
+
+import com.ubs.opsit.interviews.BerlinClockExecutor;
+import com.ubs.opsit.interviews.TimeConverter;
+
+/**
+ * @author Lawson Pereira
+ *
+ */
+public class BerlinClockExecutorProxy  implements TimeConverter {
+
+	/* (non-Javadoc)
+	 * @see com.ubs.opsit.interviews.TimeConverter#convertTime(java.lang.String)
+	 */
+	BerlinClockExecutor berlinClockExecutor = null;
+	@Override
+	public String convertTime(String aTime) {
+		if(berlinClockExecutor == null) {
+			synchronized (BerlinClockExecutorProxy.class) {
+				if(berlinClockExecutor == null) {
+					berlinClockExecutor = new BerlinClockExecutor();
+				}
+			}
+		}
+		return berlinClockExecutor.convertTime(aTime);
+	}
+	
+}
